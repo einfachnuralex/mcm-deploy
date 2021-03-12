@@ -1,0 +1,3 @@
+Scale machine deployment with:
+  kubectl --namespace {{ .Release.Namespace }} get machinedeployment
+  kubectl --namespace {{ .Release.Namespace }} scale machinedeployment $name --replicas=1

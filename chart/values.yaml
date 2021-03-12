@@ -1,0 +1,35 @@
+---
+
+image:
+  repository: eu.gcr.io/gardener-project/gardener/machine-controller-manager
+  tag: v0.37.0
+  pullPolicy: IfNotPresent
+
+openstack:
+  imageID: image-id
+  imageName: image-name
+  keyName: sshkey-name
+  networkID: net-id
+  networkIDv6: net-id
+  podNetworkCidr: pod cidr # sample for dual stack "10.244.0.0/16,2a05:b540:cafe::192:0/112"
+  region: region name
+  rootDiskSize: 100 # size in gb
+  securityGroups: # list of security grous
+    - sec group id  
+  authURL: https://url:port/v3
+  domainName: default
+  insecure: false
+  username: username
+  password: password
+  tenantName: project/tenant name
+  userData: |
+    #cloud-config
+    runcmd:
+      - [ systemctl, daemon-reload ]
+      - [ systemctl, restart, kubelet.service ]
+      - [ sh, -xc, "kubeadm join host:port --token 5kkmb5.cmab965ka708kbph --discovery-token-ca-cert-hash sha256:5ec89223445d6775de67f1ac9c20e598f07d4c49ac973daf17229f1d02c3fbf0" ]
+      - echo "fertsch"
+
+machinedeployment:
+  replicas: 0
+

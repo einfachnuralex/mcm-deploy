@@ -1,0 +1,7 @@
+apiVersion: v2
+name: mcm-deploy
+description: Deploy Gardener machine controller manager
+type: application
+home: 
+version: 0.1.0
+appVersion: 1.0.0

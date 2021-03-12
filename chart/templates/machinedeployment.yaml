@@ -1,0 +1,24 @@
+kind: MachineDeployment
+apiVersion: machine.sapcloud.io/v1alpha1
+metadata:
+  name: worker-{{ .Release.Name }}
+spec:
+  minReadySeconds: 600
+  replicas: {{ .Values.machinedeployment.replicas }}
+  selector:
+    matchLabels:
+      deployment: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: {{ .Release.Name }}
+    spec:
+      class:
+        kind: OpenStackMachineClass
+        name: osclass-{{ .Release.Name }}

@@ -1,0 +1,22 @@
+kind: OpenStackMachineClass
+apiVersion: machine.sapcloud.io/v1alpha1
+metadata:
+  name: osclass-{{ .Release.Name }}
+spec:
+  availabilityZone: {{ .Values.openstack.availabilityZone }}
+  flavorName: {{ .Values.openstack.flavorName }}
+  imageID: {{ .Values.openstack.imageID }}
+  imageName: {{ .Values.openstack.imageName }}
+  keyName: {{ .Values.openstack.keyName }}
+  networkID: {{ .Values.openstack.networkID }}
+  networkIDv6: {{ .Values.openstack.networkID }}
+  podNetworkCidr: {{ .Values.openstack.podNetworkCidr }}
+  region: {{ .Values.openstack.region }}
+  rootDiskSize: {{ .Values.openstack.rootDiskSize }}
+  secretRef:
+    name: ossec-{{ .Release.Name }}
+    namespace: {{ .Release.Namespace }}
+  securityGroups: {{ .Values.openstack.securityGroups }}
+  tags:
+    kubernetes.io-cluster-name: {{ .Release.Name }}
+    kubernetes.io-role-node: 'compute'
