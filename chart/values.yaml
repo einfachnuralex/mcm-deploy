@@ -6,6 +6,8 @@ image:
   pullPolicy: IfNotPresent
 
 openstack:
+  availabilityZone: availabilityZone
+  flavorName: flavorName
   imageID: image-id
   imageName: image-name
   keyName: sshkey-name
@@ -24,6 +26,11 @@ openstack:
   tenantName: project/tenant name
   userData: |
     #cloud-config
+    write_files:
+    - content: KUBELET_EXTRA_ARGS=--cloud-provider=external
+      owner: root:root
+      path: /etc/default/kubelet
+      permissions: '0600'
     runcmd:
       - [ systemctl, daemon-reload ]
       - [ systemctl, restart, kubelet.service ]
