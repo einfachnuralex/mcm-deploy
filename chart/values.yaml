@@ -24,6 +24,9 @@ openstack:
   username: username
   password: password
   tenantName: project/tenant name
+  tags:
+    kubernetes.io-cluster-NAME: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
+    kubernetes.io-role-node: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
   userData: |
     #cloud-config
     write_files:

@@ -18,3 +18,10 @@ sed K8SVERSION to expected version
 packer build -var "k8sversion=1.19.8" -var 'fipID=network-public-id' -var 'network=network-id' -var 'secgroup=packer-ssh' -var 'visibility=private'
 ```
 
+# Install MCM with helm chart
+
+```
+helm upgrade --install mcm-name ./ -n mcm -f values-custom.yaml
+# On clusters with another mcm
+helm upgrade --install mcm-name ./ -n mcm -f values-custom.yaml --skip-crds 
+```

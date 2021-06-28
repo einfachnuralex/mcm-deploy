@@ -17,6 +17,4 @@ spec:
     name: ossec-{{ .Release.Name }}
     namespace: {{ .Release.Namespace }}
   securityGroups: {{ .Values.openstack.securityGroups }}
-  tags:
-    kubernetes.io-cluster-name: {{ .Release.Name }}
-    kubernetes.io-role-node: 'compute'
+  tags: {{ toYaml .Values.openstack.tags | nindent 4 }}
