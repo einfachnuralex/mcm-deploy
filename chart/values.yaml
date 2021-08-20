@@ -1,11 +1,26 @@
 ---
 
 image:
-  repository: eu.gcr.io/gardener-project/gardener/machine-controller-manager
-  tag: v0.37.0
-  pullPolicy: IfNotPresent
+  mcm:
+    repository: registry.ske.eu01.stackit.cloud/gardener-ds/machine-controller-manager
+    tag: v0.39.0-ske-1-720b026c
+    pullPolicy: IfNotPresent
+  provider:
+    repository: registry.ske.eu01.stackit.cloud/gardener-ds/machine-controller-manager-provider-openstack
+    tag: v0.3.0-ske-4-371e11a
+    pullPolicy: IfNotPresent
 
-openstack:
+pre_migrate: false
+
+machinedeployment:
+  enable: false
+  replicas: 0
+  name: CHANGEME
+
+machineclass:
+  enable: false
+
+  # Openstack data
   availabilityZone: availabilityZone
   flavorName: flavorName
   imageID: image-id
@@ -16,6 +31,7 @@ openstack:
   podNetworkCidr: pod cidr # sample for dual stack "10.244.0.0/16,2a05:b540:cafe::192:0/112"
   region: region name
   rootDiskSize: 100 # size in gb
+  volumeType:
   securityGroups: # list of security grous
     - sec group id  
   authURL: https://url:port/v3
@@ -24,9 +40,10 @@ openstack:
   username: username
   password: password
   tenantName: project/tenant name
-  tags:
-    kubernetes.io-cluster-NAME: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
-    kubernetes.io-role-node: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
+  tags: {}
+    # NEEDS TO BE CUSTOMIZED
+    # kubernetes.io-cluster-CHANGEME: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
+    # kubernetes.io-role-node: "1" # This is mandatory as the safety controller uses this tag to identify VMs created by this controller.
   userData: |
     #cloud-config
     write_files:
@@ -39,7 +56,3 @@ openstack:
       - [ systemctl, restart, kubelet.service ]
       - [ sh, -xc, "kubeadm join host:port --token 5kkmb5.cmab965ka708kbph --discovery-token-ca-cert-hash sha256:5ec89223445d6775de67f1ac9c20e598f07d4c49ac973daf17229f1d02c3fbf0" ]
       - echo "fertsch"
-
-machinedeployment:
-  replicas: 0
-
