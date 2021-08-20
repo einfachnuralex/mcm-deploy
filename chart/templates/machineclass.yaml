@@ -1,10 +1,7 @@
 {{- if .Values.machineclass.enable }}
----
 {{- if .Values.pre_migrate }}
+---
 kind: OpenStackMachineClass
-{{- else }}
-kind: MachineClass
-{{- end}}
 apiVersion: machine.sapcloud.io/v1alpha1
 metadata:
   name: osclass-{{ .Values.machinedeployment.name }}
@@ -27,4 +24,35 @@ spec:
   {{- if .Values.machineclass.volumeType }}
   volumeType: {{ .Values.machineclass.volumeType }}
   {{- end }}  
+{{- end}}
+{{- if .Values.post_migrate }}
+---
+kind: MachineClass
+apiVersion: machine.sapcloud.io/v1alpha1
+metadata:
+  name: osclass-{{ .Values.machinedeployment.name }}
+provider: OpenStack
+providerSpec:
+  apiVersion: openstack.machine.gardener.cloud/v1alpha1
+  kind: MachineProviderConfig
+  spec: 
+    availabilityZone: {{ .Values.machineclass.availabilityZone }}
+    flavorName: {{ .Values.machineclass.flavorName }}
+    imageID: {{ .Values.machineclass.imageID }}
+    imageName: {{ .Values.machineclass.imageName }}
+    keyName: {{ .Values.machineclass.keyName }}
+    networkID: {{ .Values.machineclass.networkID }}
+    networkIDv6: {{ .Values.machineclass.networkID }}
+    podNetworkCidr: {{ .Values.machineclass.podNetworkCidr }}
+    region: {{ .Values.machineclass.region }}
+    rootDiskSize: {{ .Values.machineclass.rootDiskSize }}
+    securityGroups: {{ .Values.machineclass.securityGroups }}
+    tags: {{ toYaml .Values.machineclass.tags | nindent 6 }}
+    {{- if .Values.machineclass.volumeType }}
+    volumeType: {{ .Values.machineclass.volumeType }}
+secretRef:
+  name: ossec-{{ .Values.machinedeployment.name }}
+  namespace: {{ .Release.Namespace }}
+  {{- end }}  
+{{- end }}  
 {{- end }}
