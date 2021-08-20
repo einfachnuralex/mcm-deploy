@@ -25,3 +25,14 @@ helm upgrade --install mcm-name ./ -n mcm -f values-custom.yaml
 # On clusters with another mcm
 helm upgrade --install mcm-name ./ -n mcm -f values-custom.yaml --skip-crds 
 ```
+
+# Migrate OpenStackMachineClass to MachineClass with version >0.35
+
+There is a automatic migrate from OpenStackMachineClass to MachineClass implemented in >0.35.
+
+For that migration there are two flags in values.yaml:
+
+```yaml
+pre_migrate: false # deploys OpenStackMachineClass 
+post_migrate: true # deploys MachineClass
+```
