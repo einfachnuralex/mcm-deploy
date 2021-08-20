@@ -15,9 +15,11 @@ rules:
    - machinedeployments
    - machines
    - machinesets
-   - machinedeployments/status
+   - machineclasses
+   - machines/status
    - machines/status
    - machinesets/status
+   - machinedeployments/status
    verbs:
    - create
    - delete
