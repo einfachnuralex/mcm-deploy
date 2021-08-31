@@ -5,6 +5,7 @@ metadata:
   name: machine-controller-manager
   labels:
     {{- include "mcm-deploy.labels" . | nindent 4 }}  
+  namespace: machine-controller-manager
 spec:
   replicas: 1
   strategy:
