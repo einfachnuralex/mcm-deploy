@@ -1,11 +1,11 @@
 ---
-
-image:
-  mcm:
+mcm:
+  image:
     repository: registry.ske.eu01.stackit.cloud/gardener-ds/machine-controller-manager
     tag: v0.39.0-ske-1-720b026c
-    pullPolicy: IfNotPresent
-  provider:
+    pullPolicy: IfNotPresent  
+provider:
+  image:
     repository: registry.ske.eu01.stackit.cloud/gardener-ds/machine-controller-manager-provider-openstack
     tag: v0.3.0-ske-4-371e11a
     pullPolicy: IfNotPresent
