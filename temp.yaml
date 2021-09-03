@@ -151,7 +151,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: machine-controller-manager
-  namespace: default
+  namespace: machine-controller-manager
 ---
 # Source: mcm-deploy/templates/rbac/target-cluster-role-binding.yaml
 apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -165,7 +165,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: machine-controller-manager
-  namespace: default
+  namespace: machine-controller-manager
 ---
 # Source: mcm-deploy/templates/mcm/deployment-mcm.yaml
 apiVersion: apps/v1
@@ -198,7 +198,7 @@ spec:
           command:
             - ./machine-controller-manager
             - '--control-kubeconfig=inClusterConfig'
-            - '--namespace=default'
+            - '--namespace=machine-controller-manager'
             - '--port=10258'
             - '--safety-up=2'
             - '--safety-down=1'
@@ -225,7 +225,7 @@ spec:
           command:
             - ./machine-controller
             - --control-kubeconfig=inClusterConfig
-            - --namespace=default
+            - --namespace=machine-controller-manager
             - --port=10259
             - --v=3
             - --machine-creation-timeout=20m
@@ -247,3 +247,30 @@ spec:
       tolerations:
         - key: node-role.kubernetes.io/master
           effect: NoSchedule
+---
+# Source: mcm-deploy/templates/crs/machinedeployment.yaml
+kind: MachineDeployment
+apiVersion: machine.sapcloud.io/v1alpha1
+metadata:
+  name: worker-CHANGEME
+  namespace: machine-controller-manager
+spec:
+  minReadySeconds: 600
+  replicas: 2
+  selector:
+    matchLabels:
+      deployment: CHANGEME
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        deployment: CHANGEME
+    spec:
+      class:
+        kind: OpenStackMachineClass
+        name: osclass-CHANGEME

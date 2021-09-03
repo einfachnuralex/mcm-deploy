@@ -25,7 +25,7 @@ spec:
           command:
             - ./machine-controller-manager
             - '--control-kubeconfig=inClusterConfig'
-            - '--namespace={{ .Release.Namespace }}'
+            - '--namespace=machine-controller-manager'
             - '--port=10258'
             - '--safety-up=2'
             - '--safety-down=1'
@@ -52,7 +52,7 @@ spec:
           command:
             - ./machine-controller
             - --control-kubeconfig=inClusterConfig
-            - --namespace={{ .Release.Namespace }}
+            - --namespace=machine-controller-manager
             - --port=10259
             - --v=3
             - --machine-creation-timeout=20m

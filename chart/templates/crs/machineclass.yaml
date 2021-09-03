@@ -19,7 +19,7 @@ spec:
   rootDiskSize: {{ .Values.machineclass.rootDiskSize }}
   secretRef:
     name: ossec-{{ .Values.machinedeployment.name }}
-    namespace: {{ .Release.Namespace }}
+    namespace: machine-controller-manager
   securityGroups: {{ .Values.machineclass.securityGroups }}
   tags: {{ toYaml .Values.machineclass.tags | nindent 4 }}
   {{- if .Values.machineclass.volumeType }}
@@ -54,7 +54,7 @@ providerSpec:
     volumeType: {{ .Values.machineclass.volumeType }}
 secretRef:
   name: ossec-{{ .Values.machinedeployment.name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: machine-controller-manager
   {{- end }}  
 {{- end }}  
 {{- end }}
