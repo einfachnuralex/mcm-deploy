@@ -5,6 +5,7 @@ metadata:
   name: machine-controller-manager
   labels:
     {{- include "mcm-deploy.labels" . | nindent 4 }}  
+  namespace: machine-controller-manager
 spec:
   replicas: 1
   strategy:
@@ -19,12 +20,12 @@ spec:
     spec:
       containers:
         - name: machine-controller-manager
-          image: "{{ .Values.image.mcm.repository }}:{{ .Values.image.mcm.tag }}"
-          imagePullPolicy: {{ .Values.image.mcm.pullPolicy }}
+          image: "{{ .Values.mcm.image.repository }}:{{ .Values.mcm.image.tag }}"
+          imagePullPolicy: {{ .Values.mcm.image.pullPolicy }}
           command:
             - ./machine-controller-manager
             - '--control-kubeconfig=inClusterConfig'
-            - '--namespace={{ .Release.Namespace }}'
+            - '--namespace=machine-controller-manager'
             - '--port=10258'
             - '--safety-up=2'
             - '--safety-down=1'
@@ -46,12 +47,12 @@ spec:
             successThreshold: 1
             failureThreshold: 3
         - name: provider-openstack
-          image: "{{ .Values.image.provider.repository }}:{{ .Values.image.provider.tag }}"
-          imagePullPolicy: {{ .Values.image.provider.pullPolicy }}
+          image: "{{ .Values.provider.image.repository }}:{{ .Values.provider.image.tag }}"
+          imagePullPolicy: {{ .Values.provider.image.pullPolicy }}
           command:
             - ./machine-controller
             - --control-kubeconfig=inClusterConfig
-            - --namespace={{ .Release.Namespace }}
+            - --namespace=machine-controller-manager
             - --port=10259
             - --v=3
             - --machine-creation-timeout=20m

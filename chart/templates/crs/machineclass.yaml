@@ -5,6 +5,7 @@ kind: OpenStackMachineClass
 apiVersion: machine.sapcloud.io/v1alpha1
 metadata:
   name: osclass-{{ .Values.machinedeployment.name }}
+  namespace: machine-controller-manager
 spec:
   availabilityZone: {{ .Values.machineclass.availabilityZone }}
   flavorName: {{ .Values.machineclass.flavorName }}
@@ -18,7 +19,7 @@ spec:
   rootDiskSize: {{ .Values.machineclass.rootDiskSize }}
   secretRef:
     name: ossec-{{ .Values.machinedeployment.name }}
-    namespace: {{ .Release.Namespace }}
+    namespace: machine-controller-manager
   securityGroups: {{ .Values.machineclass.securityGroups }}
   tags: {{ toYaml .Values.machineclass.tags | nindent 4 }}
   {{- if .Values.machineclass.volumeType }}
@@ -31,6 +32,7 @@ kind: MachineClass
 apiVersion: machine.sapcloud.io/v1alpha1
 metadata:
   name: osclass-{{ .Values.machinedeployment.name }}
+  namespace: machine-controller-manager
 provider: OpenStack
 providerSpec:
   apiVersion: openstack.machine.gardener.cloud/v1alpha1
@@ -52,7 +54,7 @@ providerSpec:
     volumeType: {{ .Values.machineclass.volumeType }}
 secretRef:
   name: ossec-{{ .Values.machinedeployment.name }}
-  namespace: {{ .Release.Namespace }}
+  namespace: machine-controller-manager
   {{- end }}  
 {{- end }}  
 {{- end }}

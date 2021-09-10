@@ -4,6 +4,7 @@ kind: MachineDeployment
 apiVersion: machine.sapcloud.io/v1alpha1
 metadata:
   name: worker-{{ .Values.machinedeployment.name }}
+  namespace: machine-controller-manager
 spec:
   minReadySeconds: 600
   replicas: {{ .Values.machinedeployment.replicas }}
